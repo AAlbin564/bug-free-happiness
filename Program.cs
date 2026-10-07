@@ -18,23 +18,34 @@ internal static class Program
         // Game loop: process input, update, render
         while (!Raylib.WindowShouldClose())
         {
+            Vector2 movementVector = Vector2.Zero;
             float deltaTime = Raylib.GetFrameTime();
+
+
+           
+
+
+                     
             //process input
-            if(Raylib.IsKeyDown(KeyboardKey.W)){
-                pWizard.MoveUp(deltaTime);
+             if(Raylib.IsKeyDown(KeyboardKey.W)){
+                movementVector += new Vector2(0,-1);
             }
             if(Raylib.IsKeyDown(KeyboardKey.S)){
-                pWizard.MoveDown(deltaTime);
+                movementVector += new Vector2(0,1);
             }
             if(Raylib.IsKeyDown(KeyboardKey.A)){
-                pWizard.MoveLeft(deltaTime);
+                movementVector += new Vector2(-1,0);
             }
             if(Raylib.IsKeyDown(KeyboardKey.D)){
-                pWizard.MoveRight(deltaTime);
+                movementVector += new Vector2(1,0);
             }
 
             //update
-            
+            if(movementVector != Vector2.Zero)
+            {
+                movementVector = Vector2.Normalize(movementVector);
+                pWizard.Move(deltaTime,movementVector);
+            }   
 
             //render
             Raylib.BeginDrawing();

@@ -27,25 +27,9 @@ public class Player
     }
 
     // public so they can be called from the game loop
-    public void MoveUp(float deltaTime)
+    public void Move(float frTime, Vector2 direction)
     {
-
-        this.Pos -= new Vector2(0, this.Speed*deltaTime);
-    }
-
-    public void MoveDown(float deltaTime)
-    {
-        this.Pos += new Vector2(0, this.Speed*deltaTime);
-    }
-
-    public void MoveRight(float deltaTime)
-    {
-        this.Pos += new Vector2(this.Speed*deltaTime, 0);
-    }
-
-    public void MoveLeft(float deltaTime)
-    {
-        this.Pos -= new Vector2(this.Speed*deltaTime, 0);
+        this.Pos += direction*Speed*frTime;
     }
 
 }
