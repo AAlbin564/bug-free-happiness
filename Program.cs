@@ -13,7 +13,9 @@ internal static class Program
     {
         //instatiate the playercharacter and the window
         Raylib.InitWindow(800, 480, "Wizards with Spells");
+        
         Player pWizard = new Player(new Vector2(400,240));
+        List<Fireball> fireballs = new List<Fireball>();
 
         // Game loop: process input, update, render
         while (!Raylib.WindowShouldClose())
@@ -21,11 +23,6 @@ internal static class Program
             Vector2 movementVector = Vector2.Zero;
             float deltaTime = Raylib.GetFrameTime();
 
-
-           
-
-
-                     
             //process input
              if(Raylib.IsKeyDown(KeyboardKey.W)){
                 movementVector += new Vector2(0,-1);
@@ -38,6 +35,14 @@ internal static class Program
             }
             if(Raylib.IsKeyDown(KeyboardKey.D)){
                 movementVector += new Vector2(1,0);
+            }
+
+            if(Raylib.IsMouseButtonPressed(MouseButton.Left))
+            {
+                Vector2 mousePos = Raylib.GetMousePosition();
+
+                Fireball fball = pWizard.castFireball(dir);
+                fireballs.Add(fball);
             }
 
             //update

@@ -1,5 +1,6 @@
 using System.Numerics;
 using Raylib_cs;
+using WizardsWithSpells.Entities;
 
 namespace WizardsWithSpells.Entities;
 
@@ -30,6 +31,27 @@ public class Player
     public void Move(float frTime, Vector2 direction)
     {
         this.Pos += direction*Speed*frTime;
+    }
+
+    public Fireball castFireball( Vector2 mousePos)
+    {
+
+        Vector2 Edge = FindEdge(castingDirection);
+
+    }
+    public Vector2 FindEdge(Vector2 castingDirection)
+    {
+        float halfWidth = Size.X / 2;
+        float halfHeight = Size.Y / 2;
+
+    
+        float distToSide = halfWidth / MathF.Abs(direction.X);
+        float distToTopBottom = halfHeight / MathF.Abs(direction.Y);
+
+        
+        float distance = MathF.Min(distToSide, distToTopBottom);
+
+        return Pos + direction * distance;
     }
 
 }
