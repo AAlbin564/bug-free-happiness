@@ -16,6 +16,7 @@ internal static class Program
         
         Player pWizard = new Player(new Vector2(400,240));
         List<Fireball> fireballs = new List<Fireball>();
+        List<Fireball> currentlyExplodingFireballs = new List<Fireball>();
 
         // Game loop: process input, update, render
         while (!Raylib.WindowShouldClose())
@@ -40,9 +41,9 @@ internal static class Program
             if(Raylib.IsMouseButtonPressed(MouseButton.Left))
             {
                 Vector2 mousePos = Raylib.GetMousePosition();
-
-                Fireball fball = pWizard.castFireball(dir);
-                fireballs.Add(fball);
+                
+                Fireball fBall = pWizard.CastFireball(mousePos);
+                fireballs.Add(fBall);
             }
 
             //update
@@ -50,13 +51,27 @@ internal static class Program
             {
                 movementVector = Vector2.Normalize(movementVector);
                 pWizard.Move(deltaTime,movementVector);
-            }   
+            }
+            foreach (Fireball fBall in fireballs)
+            {
+                fBall.Update(deltaTime);
+                fBall.HandleEdgeCollision(Raylib.GetScreenHeight(), Raylib.GetScreenWidth());
+                if(fBall.Exploding)
+                {
+                    currentlyExplodingFireballs.Add(fBall);
+                }
+            }
+            fireballs.RemoveAll(fb => fb.Exploding);   
 
             //render
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.White);
             pWizard.Draw();
-            Raylib.DrawText("Hello, world!", 12, 12, 20, Color.Black);
+            foreach (Fireball fBall in fireballs)
+            {
+                fBall.Draw();
+            }  
+            Raylib.DrawText($"Hello, world! {fireballs.Count} {currentlyExplodingFireballs.Count}", 12, 12, 20, Color.Black);
             Raylib.EndDrawing();
         }
 

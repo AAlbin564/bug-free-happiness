@@ -33,13 +33,22 @@ public class Player
         this.Pos += direction*Speed*frTime;
     }
 
-    public Fireball castFireball( Vector2 mousePos)
+    public Fireball CastFireball(Vector2 mousePos)
     {
+        Vector2 castingDir = new Vector2(1,0);
+        Vector2 toMouse = mousePos - this.Pos;
+        if(toMouse != Vector2.Zero)
+        {
+            castingDir = Vector2.Normalize(toMouse);
+        }
+        
 
-        Vector2 Edge = FindEdge(castingDirection);
+        Vector2 edge = FindEdge(castingDir);
+
+        return new Fireball(this, castingDir, edge);
 
     }
-    public Vector2 FindEdge(Vector2 castingDirection)
+    public Vector2 FindEdge(Vector2 direction)
     {
         float halfWidth = Size.X / 2;
         float halfHeight = Size.Y / 2;

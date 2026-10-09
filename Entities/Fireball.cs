@@ -12,22 +12,14 @@ public class Fireball{
 
     public Vector2 CastingDirection {get;set;}
 
+    public bool Exploding {get;set;} = false;
+
 
     public Fireball(Player owner, Vector2 castingDirection, Vector2 origin)
     {
-        if(castingDirection == Vector2.Zero)
-        {
-            this.CastingDirection = new Vector2(1,0);
-        }
-        else
-        {
-            this.CastingDirection = Vector2.Normalize(castingDirection);
-        }
-
-
-        
-
         this.Owner = owner;
+
+        this.CastingDirection = castingDirection;
 
         this.Pos = origin + CastingDirection*Radius;
     }
@@ -39,6 +31,16 @@ public class Fireball{
     public void Update(float frTime)
     {
         this.Pos += CastingDirection*Speed*frTime;
+    }
+
+    public void HandleEdgeCollision(int screenHeight, int screenWidth)
+    {
+        if(screenWidth <= this.Pos.X+this.Radius || 0 >= this.Pos.X-this.Radius || screenHeight <= this.Pos.Y+this.Radius || 0 >= this.Pos.Y-this.Radius)
+        {
+            this.Exploding = true;
+        }
+        
+
     }
 
 }
